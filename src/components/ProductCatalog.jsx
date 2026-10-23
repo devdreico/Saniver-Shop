@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { products, productCategories } from "../data/products.js";
 import { currency } from "../lib/cart.js";
+import { Link } from "react-router-dom";
 
 function ProductCard({ product, onAdd }) {
   return (
     <article className="product-card">
       <div className="product-image">
         {product.badge && <span className="product-badge">{product.badge}</span>}
-        <img src={product.imageUrl} alt={product.name} loading="lazy" />
+        <Link to={`/producto/${product.id}`} aria-label={`Ver ${product.name}`}><img src={product.imageUrl} alt={product.name} loading="lazy" /></Link>
       </div>
       <div className="product-info">
         <p className="product-category">{product.category}</p>
-        <h3>{product.name}</h3>
+        <h3><Link to={`/producto/${product.id}`}>{product.name}</Link></h3>
         <p className="product-detail">{product.detail}</p>
         <div className="product-buy">
           <span className="product-price">{currency.format(product.price)}</span>
@@ -22,8 +23,8 @@ function ProductCard({ product, onAdd }) {
   );
 }
 
-export default function ProductCatalog({ onAdd }) {
-  const [activeFilter, setActiveFilter] = useState("Todos");
+export default function ProductCatalog({ onAdd, initialCategory = "Todos", pageMode = false }) {
+  const [activeFilter, setActiveFilter] = useState(productCategories.includes(initialCategory) ? initialCategory : "Todos");
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLocaleLowerCase("es");
   const visibleProducts = products.filter((product) => {
@@ -33,9 +34,9 @@ export default function ProductCatalog({ onAdd }) {
   });
 
   return (
-    <section className="shop-section section-wrap" id="tienda">
+    <section className={`shop-section section-wrap${pageMode ? " shop-page-section" : ""}`} id="tienda">
       <div className="section-heading shop-heading">
-        <div><p className="eyebrow">CUIDARTE EMPIEZA POR ELEGIR</p><h2>La tienda <span>Saniver</span></h2></div>
+        <div><p className="eyebrow">{pageMode ? "CATÁLOGO SANIVER / 12 PRODUCTOS" : "CUIDARTE EMPIEZA POR ELEGIR"}</p><h2>{pageMode ? <>Encuentra tus <span>esenciales.</span></> : <>Una selección <span>para empezar.</span></>}</h2></div>
         <p>Productos de bienestar y cuidado para acompañar tu día a día. ¿No sabes cuál elegir? <a href="https://wa.me/573144572008" target="_blank" rel="noreferrer">Te orientamos por WhatsApp ↗</a></p>
       </div>
       <div className="shop-tools">

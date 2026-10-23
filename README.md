@@ -16,6 +16,15 @@ npm run dev
 
 Vite mostrará la dirección local para abrir la tienda.
 
+## Páginas
+
+- `/` inicio y selecciones editoriales
+- `/tienda` catálogo filtrable por `?categoria=Suplementos`
+- `/producto/:productId` ficha de cada producto y selección de cantidad
+- `/wiki` biblioteca y `/wiki/:slug` guías individuales
+- `/actualidad` artículos y `/actualidad/:slug` lectura completa
+- `/comunidad` selección de tema con inicio de conversación por WhatsApp
+
 ## Validación y producción
 
 ```sh
